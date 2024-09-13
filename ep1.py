@@ -1,5 +1,6 @@
 import numpy as np
-from sympy import diff, symbols, lambdify, sympify, E, exp
+from sympy import diff, symbols, lambdify, sympify
+from statistics import mean, variance
 
 # 2° e 4° derivada da função integrada
 def diff2_f(a):
@@ -90,7 +91,19 @@ def error_simps(a, b, n):
 # Método de Romberg
 #########
 
+def confidence_interval(data):
+    var = variance(data)
+    mean_value = mean(data)
+    t = 63.66 # Valor obtido pela tabela t de Student para 99% de confiança com 1 grau de liberdade
+    error = t * (var/len(data))**0.5
+    min_value, max_value = mean_value - error, mean_value + error
+    return min_value, max_value
+
 def romb(a, b, e, maxi):
+    # Calcula o intervalo de confiança comparando com as estimações anteriores
+    min_value, max_value = confidence_interval(previous_estimation)
+    print(f"Intervalo de confiança: [{min_value}, {max_value}]")
+
     # Define a primeira entrada da tabela T_0_0
     t_0_0 = (f(a) + f(b)) * (b - a) / 2
     # a variável "tabela" será a matriz que representará a tabela de Romberg
@@ -99,7 +112,7 @@ def romb(a, b, e, maxi):
 
     i = 1
     # Processo que calcula os valores de cada linha i da tabela
-    while i <= maxi:
+    while i < maxi:
         t_i_0 = trapz(a, b, tabela[i-1], i)
         # Matriz que representa a linha i
         t_i = [t_i_0]
@@ -116,7 +129,10 @@ def romb(a, b, e, maxi):
         i += 1
         # Verifica se os valores de T_n_n e T_n_n-1 são próximos o suficiente
         if abs(t_i[-1] - t_i[-2]) < e*abs(t_i[-1]):
-            break
+            if not min_value <= t_i[-1] <= max_value:
+                continue
+            else:
+                break
     
     return tabela[-1][-1], i
 
@@ -154,8 +170,12 @@ def main(f,a,b):
     print(f"Número de iterações: {i} \nValor aproximado da integral: {simps_value} \nErro máximo: {abs(error)}")
     print()
 
+    # Salvando as estimações para calcular o intervalo de confiança
+    global previous_estimation 
+    previous_estimation = [trapz_value, simps_value]
+
     print("Método de Romberg:")
-    romb_value, i = romb(a, b, lim_error, 10)
+    romb_value, i = romb(a, b, lim_error, 20)
     print()
     print(f"Número de iterações: {i} \nValor aproximado da integral: {romb_value}")
 
