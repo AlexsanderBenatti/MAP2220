@@ -28,7 +28,7 @@ def aprox(fuser,a,b,n):
     f = lambdify(x,fuser)
     #calcula os valores aproximados
     for i in range(len(t)-1):
-        flinha[i+1] = (f(t[i+1])-f(t[i]))/passo
+        flinha[i+1] = f(t[i]) + (f(t[i+1])-f(t[i]))/passo
     return t, flinha
 
 def main(fuser,a,b):
