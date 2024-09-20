@@ -21,8 +21,7 @@ def aprox(a,b,n):
     t = np.arange(a,b+passo,passo)
     #valores da derivada
     flinha = np.zeros(len(t))
-    diff_f = lambdify(x, diff(fuser, x,1)) #permite calcular a derivada
-    flinha[0] = diff_f(0) #calcula a derivada no ponto zero
+    flinha[0] = diff_y(0) #calcula a derivada no ponto zero
     #calcula os valores aproximados
     for i in range(len(t)-1):
         flinha[i+1] = flinha[i] + passo*diff_y(t[i])
