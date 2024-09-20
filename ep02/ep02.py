@@ -57,7 +57,7 @@ def main(fuser,a,b):
     linestyles = ['--', '-.', ':', '-']
     plt.figure(figsize = (12, 8))
     plt.style.use('grayscale')
-    
+
     # Loop para plotar todos os valores de T e F
     for i in range(len(listn)):
         plt.plot(T[i], F[i], linestyle=linestyles[i], label=f'n={listn[i]}')  # Usando a lista para o label
