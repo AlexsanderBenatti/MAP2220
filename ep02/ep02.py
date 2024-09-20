@@ -3,6 +3,12 @@ from sympy import *
 import matplotlib.pyplot as plt
 
 '''método explícito'''
+# f(x)
+def f(fuser):
+    x = symbols('x')
+    f = lambdify(x, fuser)
+    return f
+
 # f'(x)
 def diff_f(fuser):
     '''calcula a derivada da função no ponto a'''
@@ -12,6 +18,12 @@ def diff_f(fuser):
     diff_f = lambdify(x, diff(fuser, x, 2))
     # Retorna o valor da 2° derivada no ponto a
     return diff_f
+
+def diff_y(t):
+    delta_t = 10**-5
+    x = symbols('x')
+    f = lambdify(x,fuser)
+    return (f(t+delta_t)-f(t))/delta_t
 
 # passo
 def step(tf,t0,n):
@@ -28,7 +40,8 @@ def aprox(fuser,a,b,n):
     f = lambdify(x,fuser)
     #calcula os valores aproximados
     for i in range(len(t)-1):
-        flinha[i+1] = (f(t[i+1])-f(t[i]))/passo
+        # flinha[i+1] = (f(t[i+1])-f(t[i]))/passo
+        flinha[i+1] = flinha[i] + passo*diff_y(t[i])
     return t, flinha
 
 def main(fuser,a,b):
