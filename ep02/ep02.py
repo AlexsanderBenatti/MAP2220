@@ -2,9 +2,10 @@ import numpy as np
 from sympy import *
 import matplotlib.pyplot as plt
 
-def diff_y(t, y):
+def diff_y(t, y, fuser):
     '''Retorna a derivada da função fornecida no ponto (t, y)'''
-    f = lambdify([x, y_var], fuser)  # Função f(t, y) a ser aproximada
+    t_var, y_var = symbols('t y')  # Declara as variáveis simbólicas t e y
+    f = lambdify([t_var, y_var], fuser)  # Função f(t, y) a ser aproximada
     return f(t, y)
 
 # passo
@@ -12,7 +13,7 @@ def step(t0, tf, n):
     '''Calcula o tamanho do passo'''
     return (tf-t0)/n 
 
-def aprox(a, b, n, y0):
+def aprox(a, b, n, y0, fuser):
     '''Aproximação pelo método de Euler explícito'''
     passo = step(a, b, n)
     # valores para t
@@ -23,11 +24,11 @@ def aprox(a, b, n, y0):
     
     # Calcula os valores aproximados usando o método de Euler
     for i in range(len(t)-1):
-        y_values[i+1] = y_values[i] + passo * diff_y(t[i], y_values[i])
+        y_values[i+1] = y_values[i] + passo * diff_y(t[i], y_values[i], fuser)
     
     return t, y_values
 
-def main(a, b):
+def main(a, b, fuser):
     '''Compila os valores da aproximação para diferentes valores de n'''
     listn = [16, 64, 256, 1024]  # lista de valores de n (passos)
     T = []
@@ -35,7 +36,7 @@ def main(a, b):
     y0 = float(input('Insira o valor inicial de y(0): '))  # Valor inicial de y(0)
     
     for n in listn:
-        t, y_values = aprox(a, b, n, y0)
+        t, y_values = aprox(a, b, n, y0, fuser)
         T.append(t)
         Y.append(y_values)
 
@@ -55,10 +56,33 @@ def main(a, b):
     plt.legend(loc='lower right')
     plt.show()
 
+def problem(num):
+    n = 2500
+    t_0, t_n = 0, 140
+    y_0 = 10
+    alpha, beta = 0.2, float("0.02" + str(num))
+    #t_var, y_var = symbols('t y')
+    fuser = sympify(f"y*({alpha} - {beta}*y)")
+    t, y_values = aprox(t_0, t_n, n, y_0, fuser)
+
+    plt.figure(figsize=(12, 8))
+    plt.style.use('grayscale')
+    plt.plot(t, y_values, linestyle='-', label=f"y\'(t) = y(t)*({alpha} - {beta}*y(t))")
+    plt.title(f"y\'(t) = y(t)*(0.2 - {beta}*y(t))")
+    plt.xlabel('t')
+    plt.ylabel('y(t)')
+    plt.grid()
+    plt.legend(loc='upper right')
+    plt.show()
+
 if __name__ == "__main__":
-    x, y_var = symbols('x y')  # Declara as variáveis simbólicas t e y
+    option = input("Para fazer o gráfico do problema de y'(t) = y*(0.2 - 0.02ab*y) insira 1: ")
+    if option == "1":
+        problem(int(input("Insira o valor de ab: ")))
+        exit()
+    #t_var, y_var = symbols('t y')  # Declara as variáveis simbólicas t e y
     user_input = input("Insira uma equação diferencial f(t, y): ")
     fuser = sympify(user_input)
-    a = float(input('Intervalo de integração - valor mínimo (a): '))
-    b = float(input('Intervalo de integração - valor máximo (b): '))
-    main(a, b)
+    a = float(input('valor mínimo do intervalo (a): '))
+    b = float(input('valor máximo do intervalo (b): '))
+    main(a, b, fuser)
