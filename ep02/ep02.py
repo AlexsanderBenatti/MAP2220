@@ -76,7 +76,7 @@ def problem(num):
     plt.show()
 
 if __name__ == "__main__":
-    option = input("Para fazer o gráfico do problema de y'(t) = y*(0.2 - 0.02ab*y) insira 1: ")
+    option = input("Para fazer o gráfico do problema de x'(t) = x*(0.2 - 0.02ab*x) insira 1: ")
     if option == "1":
         problem(int(input("Insira o valor de ab: ")))
         exit()
