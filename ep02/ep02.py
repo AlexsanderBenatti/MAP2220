@@ -67,10 +67,10 @@ def problem(num):
 
     plt.figure(figsize=(12, 8))
     plt.style.use('grayscale')
-    plt.plot(t, y_values, linestyle='-', label=f"y\'(t) = y(t)*({alpha} - {beta}*y(t))")
-    plt.title(f"y\'(t) = y(t)*(0.2 - {beta}*y(t))")
+    plt.plot(t, y_values, linestyle='-', label=f"x\'(t) = x(t)*({alpha} - {beta}*x(t))")
+    plt.title(f"x\'(t) = x(t)*(0.2 - {beta}*x(t))")
     plt.xlabel('t')
-    plt.ylabel('y(t)')
+    plt.ylabel('x(t)')
     plt.grid()
     plt.legend(loc='upper right')
     plt.show()
