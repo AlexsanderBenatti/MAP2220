@@ -42,7 +42,7 @@ def main(a, b, fuser):
 
     # plotar aproximação
     linestyles = ['--', '-.', ':', '-']
-    plt.figure(figsize=(12, 8))
+    plt.figure(figsize=(6, 5))
     plt.style.use('grayscale')
 
     # loop para plotar todos os valores de T e Y
@@ -65,7 +65,7 @@ def problem(num):
     fuser = sympify(f"y*({alpha} - {beta}*y)")
     t, y_values = aprox(t_0, t_n, n, y_0, fuser)
 
-    plt.figure(figsize=(12, 8))
+    plt.figure(figsize=(6, 5))
     plt.style.use('grayscale')
     plt.plot(t, y_values, linestyle='-', label=f"x\'(t) = x(t)*({alpha} - {beta}*x(t))")
     plt.title(f"x\'(t) = x(t)*(0.2 - {beta}*x(t))")
