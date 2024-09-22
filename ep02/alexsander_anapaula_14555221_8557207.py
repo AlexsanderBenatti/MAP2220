@@ -33,7 +33,7 @@ def main(a, b, fuser):
     listn = [16, 64, 256, 1024]  # lista de valores de n (passos)
     T = []
     Y = []
-    y0 = float(input('Insira o valor inicial de y(0): '))  # Valor inicial de y(0)
+    y0 = float(input(f'Insira o valor inicial de y({a}): '))  # Valor inicial de y(t0)
     
     for n in listn:
         t, y_values = aprox(a, b, n, y0, fuser)
