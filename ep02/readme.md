@@ -9,5 +9,5 @@ Funções do arquivo:
      * Digite qualquer coisa diferente de '1'
      * Insira uma função diferencial em função de t e y(t)
      * Determine o intervalo [a,b] de t
-     * Insira o valor de y(0)
+     * Insira o valor de y(a)
 
