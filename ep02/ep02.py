@@ -56,11 +56,11 @@ def main(a, b, fuser):
     plt.legend(loc='lower right')
     plt.show()
 
-def problem(num):
+def problem(num_str):
     n = 2500
     t_0, t_n = 0, 140
     y_0 = 10
-    alpha, beta = 0.2, float("0.02" + str(num))
+    alpha, beta = 0.2, float("0.02" + num_str)
     #t_var, y_var = symbols('t y')
     fuser = sympify(f"y*({alpha} - {beta}*y)")
     t, y_values = aprox(t_0, t_n, n, y_0, fuser)
@@ -78,7 +78,7 @@ def problem(num):
 if __name__ == "__main__":
     option = input("Para fazer o gráfico do problema de x'(t) = x*(0.2 - 0.02ab*x) insira 1: ")
     if option == "1":
-        problem(int(input("Insira o valor de ab: ")))
+        problem((input("Insira o valor de ab: ")))
         exit()
     #t_var, y_var = symbols('t y')  # Declara as variáveis simbólicas t e y
     user_input = input("Insira uma equação diferencial f(t, y): ")
