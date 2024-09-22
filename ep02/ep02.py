@@ -57,6 +57,7 @@ def main(a, b, fuser):
     plt.show()
 
 def problem(num_str):
+    "Resolve o problema x' = x*(alpha - beta*x), sob as condições impostas no EP"
     n = 2500
     t_0, t_n = 0, 140
     y_0 = 10
